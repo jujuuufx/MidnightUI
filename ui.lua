@@ -7240,7 +7240,7 @@ local Library do
                 Prefix = Data.Prefix or Data.prefix or "",
                 Suffix = Data.Suffix or Data.suffix or "",
                 Watermark = Data.Watermark or Data.watermark or nil,
-                Size = Data.Size or Data.size or (not IsMobile and UDim2New(0, 659, 0, 511) or UDim2New(0, 400, 0, 320)),
+                Size = Data.Size or Data.size or (not IsMobile and UDim2New(0, 550, 0, 420) or UDim2New(0, 380, 0, 280)),
 
                 Pages = { },
                 SubPages = { },
