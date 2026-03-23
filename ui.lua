@@ -2630,8 +2630,8 @@ local Library do
                     Size = UDim2New(0, 20, 0, 20),
                     ZIndex = 2,
                     BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(34, 39, 45)
-                })  Items["Indicator"]:AddToTheme({BackgroundColor3 = "Element"})
+                    BackgroundTransparency = 1
+                })
 
                 Instances:Create("UICorner", {
                     Parent = Items["Indicator"].Instance,
@@ -2716,19 +2716,15 @@ local Library do
                 Library.Flags[Toggle.Flag] = Bool
 
                 if Bool then
-                    Items["Indicator"]:ChangeItemTheme({BackgroundColor3 = "Accent"})
                     Items["Inline"]:ChangeItemTheme({BackgroundColor3 = "Accent"})
 
-                    Items["Indicator"]:Tween(nil, {BackgroundColor3 = Library.Theme.Accent})
                     Items["Inline"]:Tween(nil, {BackgroundColor3 = Library.Theme.Accent})
 
                     Items["Check"]:Tween(nil, {ImageTransparency = 0})
                     Items["Text"]:Tween(nil, {TextTransparency = 0})
                 else
-                    Items["Indicator"]:ChangeItemTheme({BackgroundColor3 = "Element"})
                     Items["Inline"]:ChangeItemTheme({BackgroundColor3 = "Element"})
 
-                    Items["Indicator"]:Tween(nil, {BackgroundColor3 = Library.Theme.Element})
                     Items["Inline"]:Tween(nil, {BackgroundColor3 = Library.Theme.Element})
 
                     Items["Check"]:Tween(nil, {ImageTransparency = 1})
@@ -2746,13 +2742,11 @@ local Library do
 
             Items["Toggle"]:OnHover(function()
                 if Toggle.Value then return end
-                Items["Indicator"]:Tween(nil, {BackgroundColor3 = Library:GetLighterColor(Library.Theme.Element, 1.45)})
                 Items["Inline"]:Tween(nil, {BackgroundColor3 = Library:GetLighterColor(Library.Theme.Element, 1.45)})
             end)
 
             Items["Toggle"]:OnHoverLeave(function()
                 if Toggle.Value then return end
-                Items["Indicator"]:Tween(nil, {BackgroundColor3 = Library.Theme.Element})
                 Items["Inline"]:Tween(nil, {BackgroundColor3 = Library.Theme.Element})
             end)
 
@@ -7246,7 +7240,7 @@ local Library do
                 Prefix = Data.Prefix or Data.prefix or "",
                 Suffix = Data.Suffix or Data.suffix or "",
                 Watermark = Data.Watermark or Data.watermark or nil,
-                Size = not IsMobile and UDim2New(0, 659, 0, 511) or UDim2New(0, 511, 0, 459),
+                Size = not IsMobile and UDim2New(0, 659, 0, 511) or UDim2New(0, 480, 0, 400),
 
                 Pages = { },
                 SubPages = { },
@@ -7693,26 +7687,28 @@ local Library do
                     end)
                 end
 
-                UserInputService.MouseIconEnabled = false
+                if not IsMobile then
+                    UserInputService.MouseIconEnabled = false
 
-                Items["MouseImage"] = Instances:Create("ImageLabel", {
-                    Parent = Library.Holder.Instance,
-                    Name = "\0",
-                    ScaleType = Enum.ScaleType.Fit,
-                    BorderColor3 = FromRGB(0, 0, 0),
-                    Image = "rbxassetid://136489814131946",
-                    BackgroundTransparency = 1,
-                    Position = UDim2New(0, 0, 0, 0),
-                    Size = UDim2New(0, 20, 0, 20),
-                    ZIndex = 99999,
-                    BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(255, 255, 255)
-                })  Items["MouseImage"]:AddToTheme({ImageColor3 = "Accent"})
+                    Items["MouseImage"] = Instances:Create("ImageLabel", {
+                        Parent = Library.Holder.Instance,
+                        Name = "\0",
+                        ScaleType = Enum.ScaleType.Fit,
+                        BorderColor3 = FromRGB(0, 0, 0),
+                        Image = "rbxassetid://136489814131946",
+                        BackgroundTransparency = 1,
+                        Position = UDim2New(0, 0, 0, 0),
+                        Size = UDim2New(0, 20, 0, 20),
+                        ZIndex = 99999,
+                        BorderSizePixel = 0,
+                        BackgroundColor3 = FromRGB(255, 255, 255)
+                    })  Items["MouseImage"]:AddToTheme({ImageColor3 = "Accent"})
 
-                Library:Connect(RunService.RenderStepped, function()
-                    local MouseLocation = UserInputService:GetMouseLocation() 
-                    Items["MouseImage"].Instance.Position = UDim2New(0, MouseLocation.X - 1, 0, MouseLocation.Y - 56)
-                end)
+                    Library:Connect(RunService.RenderStepped, function()
+                        local MouseLocation = UserInputService:GetMouseLocation() 
+                        Items["MouseImage"].Instance.Position = UDim2New(0, MouseLocation.X - 1, 0, MouseLocation.Y - 56)
+                    end)
+                end
             end
 
             local Debounce = false 
@@ -7769,11 +7765,15 @@ local Library do
                     Items["MainFrame"].Instance.Visible = Bool
 
                     if Window.IsOpen then
-                        Items["MouseImage"].Instance.Visible = true
-                        UserInputService.MouseIconEnabled = false 
+                        if not IsMobile then
+                            Items["MouseImage"].Instance.Visible = true
+                            UserInputService.MouseIconEnabled = false 
+                        end
                     else
-                        Items["MouseImage"].Instance.Visible = false
-                        UserInputService.MouseIconEnabled = true 
+                        if not IsMobile then
+                            Items["MouseImage"].Instance.Visible = false
+                            UserInputService.MouseIconEnabled = true 
+                        end
                     end
                 end)
             end
