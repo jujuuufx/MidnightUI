@@ -2254,6 +2254,11 @@ local Library do
             self.Holder:Clean()
         end
 
+        local CoreGui = gethui()
+        if CoreGui:FindFirstChild("PulseMobileToggle") then
+            CoreGui:FindFirstChild("PulseMobileToggle"):Destroy()
+        end
+
         Library = nil 
         getgenv().Library = nil
 
@@ -7240,7 +7245,7 @@ local Library do
                 Prefix = Data.Prefix or Data.prefix or "",
                 Suffix = Data.Suffix or Data.suffix or "",
                 Watermark = Data.Watermark or Data.watermark or nil,
-                Size = Data.Size or Data.size or (not IsMobile and UDim2New(0, 550, 0, 420) or UDim2New(0, 380, 0, 280)),
+                Size = Data.Size or Data.size or (not IsMobile and UDim2New(0, 659, 0, 511) or UDim2New(0, 380, 0, 280)),
 
                 Pages = { },
                 SubPages = { },
@@ -7274,8 +7279,10 @@ local Library do
 
                 if IsMobile then
                     Items["MobileToggle"] = Instances:Create("ScreenGui", {
-                        Parent = game:GetService("CoreGui"),
+                        Parent = gethui(),
                         Name = "PulseMobileToggle",
+                        DisplayOrder = 100,
+                        ResetOnSpawn = false
                     })
 
                     local MobileButton = Instances:Create("ImageButton", {
