@@ -7240,7 +7240,7 @@ local Library do
                 Prefix = Data.Prefix or Data.prefix or "",
                 Suffix = Data.Suffix or Data.suffix or "",
                 Watermark = Data.Watermark or Data.watermark or nil,
-                Size = not IsMobile and UDim2New(0, 659, 0, 511) or UDim2New(0, 480, 0, 400),
+                Size = Data.Size or Data.size or (not IsMobile and UDim2New(0, 659, 0, 511) or UDim2New(0, 400, 0, 320)),
 
                 Pages = { },
                 SubPages = { },
@@ -7645,47 +7645,6 @@ local Library do
                     BackgroundColor3 = FromRGB(255, 255, 255)
                 })  Items["Input"]:AddToTheme({TextColor3 = "Text", PlaceholderColor3 = "Inactive Text"})
 
-                if IsMobile then 
-                    Items["FloatingButton"] = Instances:Create("TextButton", {
-                        Parent = Library.Holder.Instance,
-                        Text = "",
-                        AutoButtonColor = false,
-                        Name = "\0",
-                        Position = UDim2New(0, 125, 0, 125),
-                        BorderColor3 = FromRGB(0, 0, 0),
-                        Size = UDim2New(0, 50, 0, 50),
-                        BorderSizePixel = 0,
-                        ZIndex = 127,
-                        BackgroundColor3 = Library.Theme.Background
-                    })  Items["FloatingButton"]:AddToTheme({BackgroundColor3 = "Background"})
-
-                    Items["FloatingButton"]:MakeDraggable()
-
-                    Instances:Create("ImageLabel", {
-                        Parent = Items["FloatingButton"].Instance,
-                        BorderColor3 = FromRGB(0, 0, 0),
-                        Name = "\0",
-                        Image = "rbxassetid://" .. Window.Logo,
-                        BackgroundTransparency = 1,
-                        AnchorPoint = Vector2New(0.5, 0.5),
-                        Position = UDim2New(0.5, 0, 0.5, 0),
-                        ZIndex = 127,
-                        Size = UDim2New(1, -25, 1, -25),
-                        BorderSizePixel = 0,
-                        BackgroundColor3 = FromRGB(255, 255, 255)
-                    })
-
-                    Instances:Create("UICorner", {
-                        Parent = Items["FloatingButton"].Instance,
-                        CornerRadius = UDimNew(1, 0)
-                    }) 
-
-                    Items["FloatingButton"]:Connect("InputBegan", function(Input)
-                        if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-                            Window:SetOpen(not Window.IsOpen)
-                        end
-                    end)
-                end
 
                 if not IsMobile then
                     UserInputService.MouseIconEnabled = false
