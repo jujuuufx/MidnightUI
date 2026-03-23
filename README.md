@@ -4,7 +4,7 @@ Simple, clean, and premium UI library for Roblox. This version includes built-in
 
 ### 🚀 Quick Load
 ```lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/username/Repo/main/Uipulseui.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/jujuuufx/MidnightUI/refs/heads/main/ui.lua"))()
 ```
 
 ---
