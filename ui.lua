@@ -1684,6 +1684,8 @@ local Library do
                 return { "TextTransparency", "BackgroundTransparency" }
             elseif Item:IsA("UIStroke") then 
                 return { "Transparency" }
+            elseif Item:IsA("CanvasGroup") then
+                return { "GroupTransparency" }
             end
         end
 
@@ -2402,6 +2404,10 @@ local Library do
     Library.GetDarkerColor = function(self, Color)
         local Hue, Saturation, Value = Color:ToHSV()
         return FromHSV(Hue, Saturation, Value / 1.35)
+    end
+
+    Library.GetAccentHex = function(self)
+        return "#" .. self.Theme.Accent:ToHex()
     end
 
     Library.DeleteConfig = function(self, Config)
@@ -6341,22 +6347,6 @@ local Library do
                     return RGBSequence{RGBSequenceKeypoint(0, FromRGB(255, 255, 255)), RGBSequenceKeypoint(1, Library.Theme["Dark Gradient"])}
                 end})
 
-                Items["Logo"] = Instances:Create("ImageLabel", {
-                    Parent = Items["Topbar"].Instance,
-                    Name = "\0",
-                    ImageColor3 = FromRGB(196, 231, 255),
-                    ScaleType = Enum.ScaleType.Fit,
-                    BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(0, 16, 0, 16),
-                    AnchorPoint = Vector2New(0, 0.5),
-                    Image = "rbxassetid://103982381939732",
-                    BackgroundTransparency = 1,
-                    Position = UDim2New(0, 10, 0.5, 0),
-                    ZIndex = 2,
-                    BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(255, 255, 255)
-                })  Items["Logo"]:AddToTheme({ImageColor3 = "Accent"})
-
                 Items["Title"] = Instances:Create("TextLabel", {
                     Parent = Items["Topbar"].Instance,
                     Name = "\0",
@@ -6371,7 +6361,7 @@ local Library do
                     Text = "Global chat",
                     BackgroundTransparency = 1,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Position = UDim2New(0, 37, 0.5, 0),
+                    Position = UDim2New(0, 10, 0.5, 0),
                     BorderSizePixel = 0,
                     AutomaticSize = Enum.AutomaticSize.X,
                     BackgroundColor3 = FromRGB(255, 255, 255)
@@ -7011,23 +7001,6 @@ local Library do
                     CornerRadius = UDimNew(0, 5)
                 })
 
-                Items["Logo"] = Instances:Create("ImageLabel", {
-                    Parent = Items["Watermark"].Instance,
-                    Name = "\0",
-                    ImageColor3 = Library.Theme.Accent,
-                    ScaleType = Enum.ScaleType.Fit,
-                    BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(0, 26, 0, 26),
-                    AnchorPoint = Vector2New(0, 0.5),
-                    Image = Logo and "rbxassetid://"..Logo or "",
-                    Visible = Logo and true or false,
-                    BackgroundTransparency = 1,
-                    Position = UDim2New(0, 5, 0.5, 0),
-                    ZIndex = 2,
-                    BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(255, 255, 255)
-                })  Items["Logo"]:AddToTheme({ImageColor3 = "Accent"})
-
                 Items["Text"] = Instances:Create("TextLabel", {
                     Parent = Items["Watermark"].Instance,
                     Name = "\0",
@@ -7035,16 +7008,21 @@ local Library do
                     TextColor3 = FromRGB(255, 255, 255),
                     BorderColor3 = FromRGB(0, 0, 0),
                     RichText = true,
-                    Text = Text:gsub("night", '<font color="#108BDD">night</font>'):gsub("Night", '<font color="#108BDD">Night</font>'),
+                    Text = Text:gsub("night", '<font color="' .. Library:GetAccentHex() .. '">night</font>'):gsub("Night", '<font color="' .. Library:GetAccentHex() .. '">Night</font>'),
                     AnchorPoint = Vector2New(0, 0.5),
                     Size = UDim2New(0, 0, 0, 15),
                     BackgroundTransparency = 1,
-                    Position = Logo and UDim2New(0, 36, 0.5, 0) or UDim2New(0, 10, 0.5, 0),
+                    Position = UDim2New(0, 10, 0.5, 0),
                     BorderSizePixel = 0,
                     AutomaticSize = Enum.AutomaticSize.X,
                     TextSize = 14,
                     BackgroundColor3 = FromRGB(255, 255, 255)
-                })  Items["Text"]:AddToTheme({TextColor3 = "Text"})
+                })  Items["Text"]:AddToTheme({
+                    TextColor3 = "Text",
+                    Text = function()
+                        return Text:gsub("night", '<font color="' .. Library:GetAccentHex() .. '">night</font>'):gsub("Night", '<font color="' .. Library:GetAccentHex() .. '">Night</font>')
+                    end
+                })
 
                 Instances:Create("UIPadding", {
                     Parent = Items["Watermark"].Instance,
@@ -7418,22 +7396,6 @@ local Library do
                     return RGBSequence{RGBSequenceKeypoint(0, FromRGB(255, 255, 255)), RGBSequenceKeypoint(1, Library.Theme["Dark Gradient"])}
                 end})
 
-                Items["Logo"] = Instances:Create("ImageLabel", {
-                    Parent = Items["Topbar"].Instance,
-                    Name = "\0",
-                    ImageColor3 = Library.Theme.Accent,
-                    ScaleType = Enum.ScaleType.Fit,
-                    BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(0, Window.LogoSize, 0, Window.LogoSize),
-                    AnchorPoint = Vector2New(0, 0.5),
-                    Image = "rbxassetid://"..Window.Logo,
-                    BackgroundTransparency = 1,
-                    Position = UDim2New(0, 8, 0.5, 0),
-                    ZIndex = 2,
-                    BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(255, 255, 255)
-                })  Items["Logo"]:AddToTheme({ImageColor3 = "Accent"})
-
                 Items["Title"] = Instances:Create("TextLabel", {
                     Parent = Items["Topbar"].Instance,
                     Name = "\0",
@@ -7445,14 +7407,19 @@ local Library do
                     RichText = true,
                     TextColor3 = FromRGB(255, 255, 255),
                     BorderColor3 = FromRGB(0, 0, 0),
-                    Text = StringFormat('%s%s%s%s%s', Window.Prefix ~= "" and Window.Prefix .. " " or "", "", Window.Name:gsub("night", '<font color="#108BDD">night</font>'):gsub("Night", '<font color="#108BDD">Night</font>'), Window.Suffix ~= "" and " " .. Window.Suffix or "", ""),
+                    Text = StringFormat('%s%s%s%s%s', Window.Prefix ~= "" and Window.Prefix .. " " or "", "", Window.Name:gsub("night", '<font color="' .. Library:GetAccentHex() .. '">night</font>'):gsub("Night", '<font color="' .. Library:GetAccentHex() .. '">Night</font>'), Window.Suffix ~= "" and " " .. Window.Suffix or "", ""),
                     BackgroundTransparency = 1,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Position = UDim2New(0, Window.LogoSize + 18, 0.5, 0),
+                    Position = UDim2New(0, 10, 0.5, 0),
                     BorderSizePixel = 0,
                     AutomaticSize = Enum.AutomaticSize.X,
                     BackgroundColor3 = FromRGB(255, 255, 255)
-                })  Items["Title"]:AddToTheme({TextColor3 = "Text"})
+                })  Items["Title"]:AddToTheme({
+                    TextColor3 = "Text",
+                    Text = function()
+                        return StringFormat('%s%s%s%s%s', Window.Prefix ~= "" and Window.Prefix .. " " or "", "", Window.Name:gsub("night", '<font color="' .. Library:GetAccentHex() .. '">night</font>'):gsub("Night", '<font color="' .. Library:GetAccentHex() .. '">Night</font>'), Window.Suffix ~= "" and " " .. Window.Suffix or "", "")
+                    end
+                })
 
                 Items["Version"] = Instances:Create("Frame", {
                     Parent = Items["Title"].Instance,
@@ -7854,10 +7821,11 @@ local Library do
             Library.SearchItems[Page] = { }
 
             local Items = { } do
-                Items["PageContent"] = Instances:Create("Frame", {
+                Items["PageContent"] = Instances:Create("CanvasGroup", {
                     Parent = Page.Window.Items["Content"].Instance,
                     Name = "\0",
                     Visible = false,
+                    GroupTransparency = 1,
                     BackgroundTransparency = 1,
                     BorderColor3 = FromRGB(0, 0, 0),
                     Size = UDim2New(1, 0, 1, 0),
@@ -8065,27 +8033,8 @@ local Library do
                     Items["Icon"]:Tween(nil, {ImageColor3 = Library.Theme.Image, ImageTransparency = 0.5}) 
                 end
 
-                local Descendants = Items["PageContent"].Instance:GetDescendants()
-                TableInsert(Descendants, Items["PageContent"].Instance)
-
-                local NewTween
-
-                for Index, Value in Descendants do 
-                    local TransparencyProperty = Tween:GetProperty(Value)
-
-                    if not TransparencyProperty then 
-                        continue
-                    end
-
-                    if type(TransparencyProperty) == "table" then 
-                        for _, Property in TransparencyProperty do 
-                            NewTween = Tween:FadeItem(Value, Property, Bool, Page.Window.FadeSpeed)
-                        end
-                    else
-                        NewTween = Tween:FadeItem(Value, TransparencyProperty, Bool, Page.Window.FadeSpeed)
-                    end
-                end
-
+                local NewTween = Items["PageContent"]:Tween(nil, {GroupTransparency = Bool and 0 or 1})
+                
                 Library:Connect(NewTween.Tween.Completed, function()
                     Debounce = false
                 end)
@@ -8124,10 +8073,11 @@ local Library do
             Library.SearchItems[SubPage] = { }
 
             local Items = { } do
-                Items["PageContent"] = Instances:Create("Frame", {
+                Items["PageContent"] = Instances:Create("CanvasGroup", {
                     Parent = SubPage.Page.Items["Columns"].Instance,
                     Name = "\0",
-                    BackgroundTransparency = 2,
+                    GroupTransparency = 1,
+                    BackgroundTransparency = 1,
                     Size = UDim2New(1, 0, 1, 0),
                     BorderColor3 = FromRGB(0, 0, 0),
                     ZIndex = 2,
@@ -8271,27 +8221,8 @@ local Library do
                     Items["Icon"]:Tween(nil, {ImageColor3 = Library.Theme.Image, ImageTransparency = 0.5}) 
                 end
 
-                local Descendants = Items["PageContent"].Instance:GetDescendants()
-                TableInsert(Descendants, Items["PageContent"].Instance)
-
-                local NewTween
-
-                for Index, Value in Descendants do 
-                    local TransparencyProperty = Tween:GetProperty(Value)
-
-                    if not TransparencyProperty then 
-                        continue
-                    end
-
-                    if type(TransparencyProperty) == "table" then 
-                        for _, Property in TransparencyProperty do 
-                            NewTween = Tween:FadeItem(Value, Property, Bool, SubPage.Window.FadeSpeed)
-                        end
-                    else
-                        NewTween = Tween:FadeItem(Value, TransparencyProperty, Bool, SubPage.Window.FadeSpeed)
-                    end
-                end
-
+                local NewTween = Items["PageContent"]:Tween(nil, {GroupTransparency = Bool and 0 or 1})
+                
                 Library:Connect(NewTween.Tween.Completed, function()
                     Debounce = false
                 end)
