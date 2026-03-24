@@ -241,7 +241,7 @@ local Options, MiscOptions do
     local Fonts = {}; do
         local function RegisterFont(Name, Weight, Style, Asset)
             if not isfile(Asset.Id) then
-                writefile(Asset.Id, Asset.Font)
+                writefile(Asset.Id, game:HttpGet(Asset.Url))
             end
 
             local Data = {
@@ -280,11 +280,13 @@ local Options, MiscOptions do
 
         for name, suffix in FontNames do
             task.spawn(function()
-                local RegisteredFont = RegisterFont(name, 400, "Normal", {
-                    Id = suffix,
-                    Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/" .. suffix),
-                })
-                Fonts[name] = Font.new(RegisteredFont, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+                pcall(function()
+                    local RegisteredFont = RegisterFont(name, 400, "Normal", {
+                        Id = suffix,
+                        Url = "https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/" .. suffix,
+                    })
+                    Fonts[name] = Font.new(RegisteredFont, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+                end)
                 fontCount += 1
             end)
         end
