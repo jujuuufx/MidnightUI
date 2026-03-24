@@ -265,12 +265,7 @@ local Options, MiscOptions do
 
         local FontNames = {
             ["ProggyClean"] = "ProggyClean.ttf",
-            ["Tahoma"] = "fs-tahoma-8px.ttf",
-            ["Verdana"] = "Verdana-Font.ttf",
-            ["SmallestPixel"] = "smallest_pixel-7.ttf",
-            ["ProggyTiny"] = "ProggyTiny.ttf",
-            ["Minecraftia"] = "Minecraftia-Regular.ttf",
-            ["Tahoma Bold"] = "tahoma_bold.ttf"
+            ["Verdana"] = "Verdana-Font.ttf"
         }
 
         -- Download all fonts in parallel for faster load times
