@@ -278,7 +278,7 @@ local Options, MiscOptions do
                 pcall(function()
                     local RegisteredFont = RegisterFont(name, 400, "Normal", {
                         Id = suffix,
-                        Url = "https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/" .. suffix,
+                        Url = "https://github.com/i77lhm/storage/blob/refs/heads/main/fonts/Comfortaa-Regular.ttf" .. suffix,
                     })
                     Fonts[name] = Font.new(RegisteredFont, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
                 end)
