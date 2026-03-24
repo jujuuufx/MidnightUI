@@ -268,26 +268,19 @@ local Options, MiscOptions do
             ["Verdana"] = "Verdana-Font.ttf"
         }
 
-        -- Download all fonts in parallel for faster load times
-        local fontCount = 0
-        local fontTotal = 0
-        for _ in FontNames do fontTotal += 1 end
-
+        -- Download all fonts in parallel for faster load times without blocking the thread
         for name, suffix in FontNames do
             task.spawn(function()
                 pcall(function()
+                    -- Using valid GitHub raw URL for fonts
                     local RegisteredFont = RegisterFont(name, 400, "Normal", {
                         Id = suffix,
-                        Url = "https://github.com/i77lhm/storage/blob/refs/heads/main/fonts/Comfortaa-Regular.ttf" .. suffix,
+                        Url = "https://raw.githubusercontent.com/i77lhm/storage/main/fonts/" .. suffix,
                     })
                     Fonts[name] = Font.new(RegisteredFont, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
                 end)
-                fontCount += 1
             end)
         end
-
-        -- Wait for all fonts to finish before proceeding
-        repeat task.wait() until fontCount >= fontTotal
     end
 
     getgenv().Esp = { 
