@@ -273,14 +273,24 @@ local Options, MiscOptions do
             ["Tahoma Bold"] = "tahoma_bold.ttf"
         }
 
-        for name, suffix in FontNames do 
-            local RegisteredFont = RegisterFont(name, 400, "Normal", {
-                Id = suffix,
-                Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/" .. suffix),
-            }) 
+        -- Download all fonts in parallel for faster load times
+        local fontCount = 0
+        local fontTotal = 0
+        for _ in FontNames do fontTotal += 1 end
 
-            Fonts[name] = Font.new(RegisteredFont, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+        for name, suffix in FontNames do
+            task.spawn(function()
+                local RegisteredFont = RegisterFont(name, 400, "Normal", {
+                    Id = suffix,
+                    Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/" .. suffix),
+                })
+                Fonts[name] = Font.new(RegisteredFont, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+                fontCount += 1
+            end)
         end
+
+        -- Wait for all fonts to finish before proceeding
+        repeat task.wait() until fontCount >= fontTotal
     end
 
     getgenv().Esp = { 
