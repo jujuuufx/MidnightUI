@@ -18,6 +18,7 @@ local Library do
 
     -- Variables
     local LocalPlayer = Players.LocalPlayer
+    local PlayerGui = LocalPlayer.PlayerGui
     local Camera = Workspace.CurrentCamera
     local Mouse = LocalPlayer:GetMouse()
 
@@ -68,7 +69,8 @@ local Library do
     local IsMobile = UserInputService.TouchEnabled or false
 
     gethui = gethui or function()
-        return CoreGui
+        local player = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+        return player:WaitForChild("PlayerGui")
     end
 
     getgenv().Options = { }
@@ -778,7 +780,7 @@ local Library do
     end
 
     Library.Holder = Instances:Create("ScreenGui", {
-        Parent = game:GetService("CoreGui"),
+        Parent = gethui(),
         Name = "\0",
         ZIndexBehavior = Enum.ZIndexBehavior.Global,
         DisplayOrder = 2,
