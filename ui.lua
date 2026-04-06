@@ -14,7 +14,7 @@ local Library do
     local RunService = game:GetService("RunService")
     local Workspace = game:GetService("Workspace")
     local SoundService = cloneref and cloneref(game:GetService("SoundService")) or game:GetService("SoundService")
-    local PlayerGui = cloneref and cloneref(LocalPlayer:WaitForChild("PlayerGui")) or LocalPlayer:WaitForChild("PlayerGui")
+    local CoreGui = cloneref and cloneref(game:GetService("CoreGui")) or game:GetService("CoreGui")
 
     -- Variables
     local LocalPlayer = Players.LocalPlayer
@@ -68,7 +68,7 @@ local Library do
     local IsMobile = UserInputService.TouchEnabled or false
 
     gethui = gethui or function()
-        return PlayerGui
+        return CoreGui
     end
 
     getgenv().Options = { }
@@ -778,7 +778,7 @@ local Library do
     end
 
     Library.Holder = Instances:Create("ScreenGui", {
-        Parent = PlayerGui,
+        Parent = game:GetService("CoreGui"),
         Name = "\0",
         ZIndexBehavior = Enum.ZIndexBehavior.Global,
         DisplayOrder = 2,
